@@ -1,12 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
 import Users from './Component/Users.js';
-
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
 
 test('add users from input box', () => {
   render(<Users />);
@@ -16,6 +9,13 @@ test('add users from input box', () => {
 
 test('added user appears on screen', () => {
   render(<Users />);
-  const user = screen.getByText('kelly');
-  expect(user).toBeInTheDocument();
+  expect(screen.queryByText('Kelly')).not.toBeNull();
+})
+
+test('add multiple users on screen', () => {
+  render(<Users />);
+  const user2 = screen.queryByText('Miray')
+
+  expect(user2).not.toBeNull();
+
 })
