@@ -1,5 +1,9 @@
-import { render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, getByLabelText} from '@testing-library/react';
 import Users from './Component/Users.js';
+import Enzyme, {shallow, mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 test('add users from input box', () => {
   render(<Users />);
@@ -31,20 +35,25 @@ test('add users from input box', () => {
 //  })
 // })
 
-it('submit message', () => {
-  const onSubmit = jest.fn();
-  const handleSubmit = jest.fn();
-  const { getByTestId } = render(<Users onSubmit={handleSubmit} />);
-  fireEvent.submit(getByTestId("form"));
-  expect(onSubmit).toHaveBeenCalled();
+it('submit message', async () => {
+  const name = "user";
+  const component = await render(<Users />);
+  const input = getByLabelText(component, 'add secret users');
+  input.value = name;
+
+  getByText(component,  'Submit').click();
+
+  await waitFor(() => 
+    expect(queryByTextId(component, 'userList').toBeTruthy()),
+  );
+
+  // const onSubmit = jest.fn();
+  // const handleSubmit = jest.fn();
+  // const { getByTestId } = render(<Users onSubmit={handleSubmit} />);
+  // fireEvent.submit(getByTestId("form"));
+  // const item = await screen.findAllByAltText(/kelly/);
+  // expect(item).not.toBeNull();
+  // //expect(onSubmit).toHaveBeenCalled();
 })
 
-test('should show name', async() => {
-  render(<Users/>)
-  fireEvent.click(screen.getByText('userList'));
-
-  const item = await screen.findAllByAltText(/Item #[0-9]: /);
-  expect(items).toHaveLength(1);
-
-})
 
