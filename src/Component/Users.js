@@ -4,8 +4,8 @@ function Users() {
     const [userList, setUserList] = useState([]);
 
     const handleSubmit = (event) => {
-        const formData = new FormData(event.currentTarget);
         event.preventDefault();
+        const formData = new FormData(event.currentTarget);
         let formObject = Object.fromEntries(formData.entries())
         addUsersToList(formObject.user)
     }
@@ -20,13 +20,15 @@ function Users() {
     return (
         <>
             <h1>Secret Santa</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-testid="form">
                 <label htmlFor="user" aria-labelledby='user'>add secret users</label><br />
                 <input type="text" id="user" name="user" placeholder="user" /><br />
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" className="submitButton"/>
             </form>
 
-            <div id="userList"></div>
+            <div id="userList" data-testid="userList">
+                <p>{userList}</p>
+            </div>
         </>
     );
 }
